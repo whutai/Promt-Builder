@@ -11,7 +11,7 @@ export const productService = {
   async create(product: {
     name: string;
     description: string;
-    price: number;
+    price: string;
     image_url?: string;
   }) {
     return await supabase.from("products").insert([product]).select();

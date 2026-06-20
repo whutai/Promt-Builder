@@ -63,13 +63,29 @@ export default function ProductsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Ép kiểu price sang số để tránh lỗi type error
+    const formattedForm = {
+      ...form,
+      price: Number(form.price)
+    };
+
     if (editingId) {
-      await productService.update(editingId, form);
+      await productService.update(editingId, formattedForm);
     } else {
-      await productService.create(form);
+      await productService.create(formattedForm);
     }
     resetForm();
     loadProducts();
+  };
+
+  const handleDuplicate = (product: any) => {
+    const { id, ...dataToCopy } = product;
+    setForm({
+      ...dataToCopy,
+      name: `${dataToCopy.name} (Bản sao)`,
+      price: String(dataToCopy.price)
+    });
+    setEditingId(null);
   };
 
   const resetForm = () => {
@@ -101,6 +117,7 @@ export default function ProductsPage() {
         </span>{" "}
         Quay về trang chủ
       </Link>
+
       <header className="mb-6">
         <h1 className="text-2xl font-extrabold text-slate-800">
           Quản lý Sản phẩm
@@ -108,7 +125,6 @@ export default function ProductsPage() {
       </header>
 
       <div className="grid grid-cols-12 gap-6 flex-1 min-h-0">
-        {/* CỘT NHẬP LIỆU */}
         <div className="col-span-7 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm overflow-y-auto">
           <h2 className="text-lg font-bold mb-6 text-slate-700">
             {editingId ? "Cập nhật sản phẩm" : "Thêm mới sản phẩm"}
@@ -125,7 +141,7 @@ export default function ProductsPage() {
             </div>
             <div className="col-span-2">
               <TextAreaField
-                label="Đối tượng mục tiêu"
+                label="Giá"
                 rows={1}
                 value={form.price}
                 onChange={(e: any) =>
@@ -133,15 +149,15 @@ export default function ProductsPage() {
                 }
               />
             </div>
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[11px] font-bold text-gray-500 uppercase">
+            <div className="col-span-2">
+              <label className="text-[11px] font-bold text-gray-500 uppercase block mb-1">
                 Ảnh đại diện
               </label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                className="text-sm border border-gray-200 p-2 rounded-xl"
+                className="text-sm border border-gray-200 p-2 rounded-xl w-full"
               />
             </div>
             <div className="col-span-2">
@@ -194,33 +210,27 @@ export default function ProductsPage() {
                 }
               />
             </div>
-
-            <button className="col-span-2 bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
+            <button className="col-span-2 bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition shadow-lg">
               {editingId ? "Cập nhật thông tin" : "Lưu sản phẩm mới"}
             </button>
           </form>
         </div>
 
-        {/* CỘT DANH SÁCH */}
         <div className="col-span-5 bg-white border border-slate-100 rounded-2xl shadow-sm flex flex-col overflow-hidden">
           <div className="p-5 border-b border-slate-100">
-            <div className="font-bold text-slate-700 mb-3">
-              Danh sách sản phẩm
-            </div>
             <input
               type="text"
               placeholder="Tìm kiếm sản phẩm..."
-              className="w-full p-2.5 text-sm border border-slate-200 rounded-xl outline-none focus:border-indigo-500"
+              className="w-full p-2.5 text-sm border rounded-xl"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-
           <div className="flex-1 overflow-y-auto p-2">
             {filteredProducts.map((p, index) => (
               <div
                 key={p.id}
-                className="p-3 mb-2 bg-slate-50 rounded-xl flex items-center gap-4 hover:bg-indigo-50 transition border border-transparent hover:border-indigo-100"
+                className="p-3 mb-2 bg-slate-50 rounded-xl flex items-center gap-4"
               >
                 <div className="w-8 h-8 flex items-center justify-center font-bold text-slate-400 bg-white rounded-lg text-xs shadow-sm">
                   {index + 1}
@@ -238,6 +248,12 @@ export default function ProductsPage() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
+                  <button
+                    onClick={() => handleDuplicate(p)}
+                    className="text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg text-[10px] font-bold uppercase hover:bg-emerald-600 hover:text-white transition"
+                  >
+                    Nhân bản
+                  </button>
                   <button
                     onClick={() => {
                       setEditingId(p.id);

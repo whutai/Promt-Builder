@@ -40,7 +40,6 @@ export default function PromptsPage() {
     structure: ""
   });
 
-  // Hàm đếm số kịch bản dựa trên dấu |
   const getAngleCount = (text: string) =>
     text.split("|").filter((t) => t.trim() !== "").length;
 
@@ -62,6 +61,15 @@ export default function PromptsPage() {
     }
     resetForm();
     loadProducts();
+  };
+
+  const handleDuplicate = (p: any) => {
+    const { id, ...dataToDuplicate } = p;
+    setForm({
+      ...dataToDuplicate,
+      title: `${dataToDuplicate.title} (Bản sao)`
+    });
+    setEditingId(null);
   };
 
   const resetForm = () => {
@@ -128,7 +136,7 @@ export default function PromptsPage() {
 
             <div className="col-span-2">
               <TextAreaField
-                label="DANH SÁCH KỊCH BẢN (Ngăn cách bằng dấu -)"
+                label="DANH SÁCH KỊCH BẢN (Ngăn cách bằng dấu |)"
                 rows={6}
                 value={form.requirements}
                 onChange={(e: any) =>
@@ -138,9 +146,6 @@ export default function PromptsPage() {
               <div className="mt-2 flex justify-between items-center text-[11px] font-bold">
                 <span className="text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
                   Đã phát hiện {getAngleCount(form.requirements)} kịch bản
-                </span>
-                <span className="text-gray-400 italic">
-                  Ví dụ: Đánh vào nỗi đau|Tính năng|Đa năng
                 </span>
               </div>
             </div>
@@ -182,6 +187,12 @@ export default function PromptsPage() {
                     className="text-slate-600 bg-slate-200 px-3 py-1 rounded-lg text-[10px] font-bold uppercase hover:bg-slate-300 transition"
                   >
                     Xem
+                  </button>
+                  <button
+                    onClick={() => handleDuplicate(p)}
+                    className="text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg text-[10px] font-bold uppercase hover:bg-emerald-600 hover:text-white transition"
+                  >
+                    Nhân bản
                   </button>
                   <button
                     onClick={() => {

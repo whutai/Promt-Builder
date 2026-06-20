@@ -11,7 +11,7 @@ export const promptsService = {
   async create(promts: {
     title: string;
     system_role: string;
-    requirements: number;
+    requirements: string;
     structure: string;
   }) {
     return await supabase.from("promts").insert([promts]).select();

@@ -244,7 +244,7 @@ export default function ProductsPage() {
                     {p.name}
                   </div>
                   <div className="text-indigo-600 text-xs font-semibold">
-                    {String(p.price).toLocaleString()}đ
+                    {Number(p.price).toLocaleString()}đ
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">

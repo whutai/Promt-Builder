@@ -12,7 +12,7 @@ export const productService = {
     name: string;
     description: string;
     price: string;
-    image: string; // Sửa từ image_url thành image (khớp với page.tsx)
+    image?: string; // Sửa từ image_url thành image (khớp với page.tsx)
     target: string;
     pain_point: string;
     styling: string;

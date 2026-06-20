@@ -23,9 +23,5 @@ export const promptsService = {
 
   async delete(id: number) {
     return await supabase.from("promts").delete().eq("id", id);
-  },
-
-  async update(id: number, updates: any) {
-    return await supabase.from("promts").update(updates).eq("id", id);
   }
 };

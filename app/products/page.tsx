@@ -123,12 +123,16 @@ export default function ProductsPage() {
                 }
               />
             </div>
-            <InputField
-              label="Giá bán (VNĐ)"
-              type="number"
-              value={form.price}
-              onChange={(e: any) => setForm({ ...form, price: e.target.value })}
-            />
+            <div className="col-span-2">
+              <TextAreaField
+                label="Đối tượng mục tiêu"
+                rows={1}
+                value={form.price}
+                onChange={(e: any) =>
+                  setForm({ ...form, price: e.target.value })
+                }
+              />
+            </div>
             <div className="flex flex-col gap-1.5">
               <label className="text-[11px] font-bold text-gray-500 uppercase">
                 Ảnh đại diện

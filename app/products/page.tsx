@@ -63,19 +63,29 @@ export default function ProductsPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Ép kiểu price sang số để tránh lỗi type error
-    const formattedForm = {
-      ...form,
-      price: String(form.price)
+
+    // Tách các trường cần thiết, loại bỏ 'id' nếu có
+    const { id, ...dataToSubmit } = form as any;
+
+    // Đảm bảo price là string (vì database của bạn là text)
+    const payload = {
+      ...dataToSubmit,
+      price: String(dataToSubmit.price)
     };
 
-    if (editingId) {
-      await productService.update(editingId, formattedForm);
-    } else {
-      await productService.create(formattedForm);
+    try {
+      if (editingId) {
+        // Chỉ gửi payload đã xử lý
+        await productService.update(editingId, payload);
+      } else {
+        await productService.create(payload);
+      }
+      resetForm();
+      loadProducts();
+    } catch (error) {
+      console.error("Lỗi khi lưu sản phẩm:", error);
+      alert("Có lỗi xảy ra khi lưu.");
     }
-    resetForm();
-    loadProducts();
   };
 
   const handleDuplicate = (product: any) => {

@@ -11,7 +11,7 @@ export const productService = {
   async create(product: {
     name: string;
     description: string;
-    price: string;
+    // price: string;
     image?: string; // Sửa từ image_url thành image (khớp với page.tsx)
     target: string;
     pain_point: string;

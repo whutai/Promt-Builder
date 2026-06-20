@@ -36,7 +36,7 @@ export default function ProductsPage() {
   const [form, setForm] = useState({
     name: "",
     description: "",
-    price: "",
+    // price: "",
     image: "",
     target: "",
     pain_point: "",
@@ -65,8 +65,8 @@ export default function ProductsPage() {
     e.preventDefault();
     // Ép kiểu price sang số để tránh lỗi type error
     const formattedForm = {
-      ...form,
-      price: String(form.price)
+      ...form
+      // ,price: String(form.price)
     };
 
     if (editingId) {
@@ -82,8 +82,8 @@ export default function ProductsPage() {
     const { id, ...dataToCopy } = product;
     setForm({
       ...dataToCopy,
-      name: `${dataToCopy.name} (Bản sao)`,
-      price: String(dataToCopy.price)
+      name: `${dataToCopy.name} (Bản sao)`
+      // price: String(dataToCopy.price)
     });
     setEditingId(null);
   };
@@ -93,7 +93,7 @@ export default function ProductsPage() {
     setForm({
       name: "",
       description: "",
-      price: "",
+      // price: "",
       image: "",
       target: "",
       pain_point: "",
@@ -139,7 +139,7 @@ export default function ProductsPage() {
                 }
               />
             </div>
-            <div className="col-span-2">
+            {/* <div className="col-span-2">
               <TextAreaField
                 label="Giá"
                 rows={1}
@@ -148,7 +148,7 @@ export default function ProductsPage() {
                   setForm({ ...form, price: e.target.value })
                 }
               />
-            </div>
+            </div> */}
             <div className="col-span-2">
               <label className="text-[11px] font-bold text-gray-500 uppercase block mb-1">
                 Ảnh đại diện
@@ -243,9 +243,9 @@ export default function ProductsPage() {
                   <div className="font-bold text-slate-800 text-sm truncate">
                     {p.name}
                   </div>
-                  <div className="text-indigo-600 text-xs font-semibold">
+                  {/* <div className="text-indigo-600 text-xs font-semibold">
                     {Number(p.price).toLocaleString()}đ
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex flex-col gap-1">
                   <button

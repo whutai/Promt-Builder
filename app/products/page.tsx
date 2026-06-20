@@ -66,7 +66,7 @@ export default function ProductsPage() {
     // Ép kiểu price sang số để tránh lỗi type error
     const formattedForm = {
       ...form,
-      price: Number(form.price)
+      price: form.price
     };
 
     if (editingId) {

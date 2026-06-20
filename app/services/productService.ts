@@ -23,9 +23,5 @@ export const productService = {
 
   async delete(id: number) {
     return await supabase.from("products").delete().eq("id", id);
-  },
-
-  async update(id: number, updates: any) {
-    return await supabase.from("products").update(updates).eq("id", id);
   }
 };

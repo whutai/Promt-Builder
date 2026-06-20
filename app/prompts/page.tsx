@@ -57,7 +57,7 @@ export default function PromptsPage() {
     if (editingId) {
       await promptsService.update(editingId, form);
     } else {
-      await promptsService.create(form);
+      await promptsService.create(form as any);
     }
     resetForm();
     loadProducts();
